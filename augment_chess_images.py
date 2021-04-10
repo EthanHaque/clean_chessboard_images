@@ -1,4 +1,4 @@
-import augmentor
+import augmentor as ag
 import os
 import matplotlib.pyplot as plt
 import numpy as np
@@ -20,15 +20,15 @@ def get_image_paths(directory_path, extensions=None):
 
 def random_corner_warp(image, strength=0.2):
     choice = np.random.rand()
-    x_scale_factors = augmentor.get_rand_points(low=0, high=strength, shape=[4])
-    y_scale_factors = augmentor.get_rand_points(low=0, high=strength, shape=[4])
+    x_scale_factors = ag.get_rand_points(low=0, high=strength, shape=[4])
+    y_scale_factors = ag.get_rand_points(low=0, high=strength, shape=[4])
 
     if choice >= 0.66:
-        warped_image = augmentor.warp_corners(image, x_scale_factors, y_scale_factors)
+        warped_image = ag.warp_corners(image, x_scale_factors, y_scale_factors)
     elif choice >= 0.33:
-        warped_image = augmentor.horizontal_squeeze(image, x_scale_factors)
+        warped_image = ag.horizontal_squeeze(image, x_scale_factors)
     else:
-        warped_image = augmentor.vertical_squeeze(image, y_scale_factors)
+        warped_image = ag.vertical_squeeze(image, y_scale_factors)
 
     return warped_image
 
@@ -37,10 +37,17 @@ def random_translation(image, strength=0.1):
     rows, cols = image.shape[0:2]
 
     distance_scale_factor = (np.random.rand() - 0.5) * strength
-    translated = augmentor.translate(image, rows * distance_scale_factor, cols * distance_scale_factor)
+    translated = ag.translate(image, rows * distance_scale_factor, cols * distance_scale_factor)
 
     return translated
 
+
+def random_rotation(image, strength=1, resize=True):
+    angle = (2 * np.random.rand() - 1) * 360 * strength
+
+    rotated = ag.rotate(image, angle, resize)
+
+    return rotated
 
 def main():
     pass
@@ -48,6 +55,6 @@ def main():
 
 if __name__ == '__main__':
     paths = get_image_paths("./data/sub_set/train")
-    image = random_translation(augmentor.load(paths[-10]))
+    image = random_rotation(ag.load(paths[-10]))
     plt.imshow(image)
     plt.show()
