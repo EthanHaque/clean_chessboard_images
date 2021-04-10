@@ -33,12 +33,21 @@ def random_corner_warp(image, strength=0.2):
     return warped_image
 
 
+def random_translation(image, strength=0.1):
+    rows, cols = image.shape[0:2]
+
+    distance_scale_factor = (np.random.rand() - 0.5) * strength
+    translated = augmentor.translate(image, rows * distance_scale_factor, cols * distance_scale_factor)
+
+    return translated
+
+
 def main():
     pass
 
 
 if __name__ == '__main__':
     paths = get_image_paths("./data/sub_set/train")
-    image = random_corner_warp(augmentor.load(paths[-10]))
+    image = random_translation(augmentor.load(paths[-10]))
     plt.imshow(image)
     plt.show()
