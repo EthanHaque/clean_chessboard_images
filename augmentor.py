@@ -39,7 +39,7 @@ def _get_corners(input_image):
     return np.float32([[0, 0], [cols - 1, 0], [0, rows - 1], [cols - 1, rows - 1]])
 
 
-def _get_rand_points(low=0.0, high=1.0, shape=None):
+def get_rand_points(low=0.0, high=1.0, shape=None):
     """
     Creates a numpy array of random floats in a range.
 
@@ -104,7 +104,8 @@ def warp_corners(input_image, x_scale_factors, y_scale_factors):
     dst_points = np.float32([p1, p2, p3, p4])
 
     projective_matrix = cv2.getPerspectiveTransform(src_points, dst_points)
-    transformed_image = perspective_transformation(input_image, projective_matrix)
+    transformed_image = perspective_transformation(
+        input_image, projective_matrix)
 
     return transformed_image
 
@@ -268,7 +269,8 @@ def gaussian_blur(input_image, standard_deviation, strength):
     area sampled to blur per pixel. Must be odd.
     :return: The image with the gaussian blur applied.
     """
-    blurred = cv2.GaussianBlur(input_image, (strength, strength), standard_deviation)
+    blurred = cv2.GaussianBlur(
+        input_image, (strength, strength), standard_deviation)
 
     return blurred
 
