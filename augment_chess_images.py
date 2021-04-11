@@ -132,13 +132,36 @@ def random_distortion(image, standard_deviation=5, strength=0.4):
     return distorted_image
 
 
+def add_random_transformations(image, number_transforms, functions):
+    """
+    Randomly applies a number of transformations to an image.
+
+    :param image: The image to transform.
+    :param number_transforms: The number of transformations to apply.
+    :param functions: The functions to randomly apply from.
+    :return: The image with random transformations applied.
+    """
+    choices = np.random.choice(functions, size=number_transforms, replace=False)  # chooses random functions to use
+    for choice in choices:
+        image = choice(image)
+
+    return image
+
+
 def main():
     pass
 
 
 if __name__ == '__main__':
     paths = get_image_paths("./data/sub_set/train")
-
-    image = random_distortion(ag.load(paths[-10]))
+    functions = [
+        random_corner_warp,
+        random_translation,
+        random_rotation,
+        random_blur,
+        random_noise,
+        random_distortion
+    ]
+    image = add_random_transformations(ag.load(paths[-10]), 2, functions)
     plt.imshow(image)
     plt.show()
