@@ -5,12 +5,11 @@ from tqdm import tqdm
 import cv2
 
 
-def get_image_paths(directory_path, extensions=None):
+def get_image_paths(directory_path):
     """
     Gets the absolute path of all files in a directory.
 
     :param directory_path: Path to a directory.
-    :param extensions: The allowed extensions to get the path to.
     :return: List of strings of absolute paths to images.
     """
     directory_contents = os.listdir(directory_path)
