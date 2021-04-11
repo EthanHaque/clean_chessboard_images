@@ -49,12 +49,37 @@ def random_rotation(image, strength=1, resize=True):
 
     return rotated
 
+
+def random_blur(image, standard_deviation=3, strength=3):
+    choice = np.random.rand()
+
+    if choice >= 0.66:
+        blurred_image = ag.average_blur(image, strength)
+    elif choice >= 0.33:
+        blurred_image = ag.median_blur(image, strength)
+    else:
+        blurred_image = ag.gaussian_blur(image, standard_deviation, strength)
+
+    return blurred_image
+
+
+def random_noise(image, standard_deviation=3, strength=0.1):
+    choice = np.random.rand()
+
+    if choice >= 0.5:
+        noisy_image = ag.gaussian_noise(image, standard_deviation, strength)
+    else:
+        noisy_image = ag.speckle_noise(image, standard_deviation, strength * 5)
+
+    return noisy_image
+
+
 def main():
     pass
 
 
 if __name__ == '__main__':
     paths = get_image_paths("./data/sub_set/train")
-    image = random_rotation(ag.load(paths[-10]))
+    image = random_noise(ag.load(paths[-10]))
     plt.imshow(image)
     plt.show()
