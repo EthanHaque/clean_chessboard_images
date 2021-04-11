@@ -57,7 +57,7 @@ def random_translation(image, strength=0.1):
     return translated
 
 
-def random_rotation(image, strength=1, resize=False):
+def random_rotation(image, strength=1, resize=True):
     """
     Rotates an image around the center.
 
@@ -173,7 +173,7 @@ def main():
         random_distortion
     ]
 
-    for image_path in tqdm(paths[0:5]):
+    for image_path in tqdm(paths):
         name = os.path.basename(image_path)
         image = ag.load(image_path)
         transformed_image = add_random_transformations(image, 2, functions)
