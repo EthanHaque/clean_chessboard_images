@@ -2,6 +2,7 @@ import augmentor as ag
 import os
 import numpy as np
 from tqdm import tqdm
+import cv2
 
 
 def get_image_paths(directory_path, extensions=None):
@@ -56,7 +57,7 @@ def random_translation(image, strength=0.1):
     return translated
 
 
-def random_rotation(image, strength=1, resize=True):
+def random_rotation(image, strength=1, resize=False):
     """
     Rotates an image around the center.
 
@@ -148,6 +149,10 @@ def add_random_transformations(image, number_transforms, functions):
     return image
 
 
+def concatenate_images(left_image, right_image):
+    return cv2.hconcat([left_image, right_image])
+
+
 def main():
     paths = get_image_paths("./data/sub_set/train")
     save_to = "./data/augmented/train"
@@ -164,7 +169,8 @@ def main():
         name = os.path.basename(image_path)
         image = ag.load(image_path)
         transformed_image = add_random_transformations(image, 2, functions)
-        ag.save_image(transformed_image, save_to + "./" + name)
+        concatenated_images = concatenate_images(image, transformed_image)
+        ag.save_image(concatenated_images, save_to + "./" + name)
 
 
 if __name__ == '__main__':
