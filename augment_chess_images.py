@@ -149,6 +149,14 @@ def add_random_transformations(image, number_transforms, functions):
     return image
 
 
+def resize_to_match_dimensions(base_image, new_image):
+    rows, cols = base_image.shape[0:2]
+
+    resized_image = cv2.resize(new_image, (cols, rows), interpolation=cv2.INTER_CUBIC)
+
+    return resized_image
+
+
 def concatenate_images(left_image, right_image):
     return cv2.hconcat([left_image, right_image])
 
@@ -169,6 +177,7 @@ def main():
         name = os.path.basename(image_path)
         image = ag.load(image_path)
         transformed_image = add_random_transformations(image, 2, functions)
+        transformed_image = resize_to_match_dimensions(image, transformed_image)
         concatenated_images = concatenate_images(image, transformed_image)
         ag.save_image(concatenated_images, save_to + "./" + name)
 
