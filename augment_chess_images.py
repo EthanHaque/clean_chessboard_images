@@ -149,10 +149,6 @@ def add_random_transformations(image, number_transforms, functions):
 
 
 def main():
-    pass
-
-
-if __name__ == '__main__':
     paths = get_image_paths("./data/sub_set/train")
     save_to = "./data/augmented/train"
     functions = [
@@ -169,3 +165,7 @@ if __name__ == '__main__':
         image = ag.load(image_path)
         transformed_image = add_random_transformations(image, 2, functions)
         ag.save_image(transformed_image, save_to + "./" + name)
+
+
+if __name__ == '__main__':
+    main()
