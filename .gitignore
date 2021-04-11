@@ -3,3 +3,4 @@ logs
 .ipynb_checkpoints
 .idea
 __pycache__
+training_checkpoints
