@@ -74,12 +74,24 @@ def random_noise(image, standard_deviation=3, strength=0.1):
     return noisy_image
 
 
+def random_distortion(image, standard_deviation=5, strength=0.4):
+    choice = np.random.rand()
+
+    strength *= 10
+    if choice >= 0.5:
+        distorted_image = ag.gaussian_noise_distortion_1d(image, standard_deviation, strength)
+    else:
+        distorted_image = ag.gaussian_noise_distortion_2d(image, standard_deviation, strength)
+
+    return distorted_image
+
+
 def main():
     pass
 
 
 if __name__ == '__main__':
     paths = get_image_paths("./data/sub_set/train")
-    image = random_noise(ag.load(paths[-10]))
+    image = random_distortion(ag.load(paths[-10]))
     plt.imshow(image)
     plt.show()
