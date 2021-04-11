@@ -1,6 +1,5 @@
 import augmentor as ag
 import os
-import matplotlib.pyplot as plt
 import numpy as np
 from tqdm import tqdm
 
