@@ -176,9 +176,11 @@ def main():
     for image_path in tqdm(paths):
         name = os.path.basename(image_path)
         image = ag.load(image_path)
+
         transformed_image = add_random_transformations(image, 2, functions)
         transformed_image = resize_to_match_dimensions(image, transformed_image)
         concatenated_images = concatenate_images(image, transformed_image)
+
         ag.save_image(concatenated_images, save_to + "./" + name)
 
 
