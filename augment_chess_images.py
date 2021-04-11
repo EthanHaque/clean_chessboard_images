@@ -2,6 +2,7 @@ import augmentor as ag
 import os
 import matplotlib.pyplot as plt
 import numpy as np
+from tqdm import tqdm
 
 
 def get_image_paths(directory_path, extensions=None):
@@ -154,6 +155,7 @@ def main():
 
 if __name__ == '__main__':
     paths = get_image_paths("./data/sub_set/train")
+    save_to = "./data/augmented/train"
     functions = [
         random_corner_warp,
         random_translation,
@@ -162,6 +164,9 @@ if __name__ == '__main__':
         random_noise,
         random_distortion
     ]
-    image = add_random_transformations(ag.load(paths[-10]), 2, functions)
-    plt.imshow(image)
-    plt.show()
+
+    for image_path in tqdm(paths[0:5]):
+        name = os.path.basename(image_path)
+        image = ag.load(image_path)
+        transformed_image = add_random_transformations(image, 2, functions)
+        ag.save_image(transformed_image, save_to + "./" + name)
